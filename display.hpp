@@ -31,7 +31,7 @@ public:
 	void getWindowSize(int *width, int *height);	//gets current window size
 	void setWindowSize(int width, int height);		//sets size of window
 	void init(int x=100, int y=100, int z=100, int w=500, int h=500,
-		   std::string winame = "Lattice Simulation!"); //Initialize the display
+		   std::string winame = "Simulation."); //Initialize the display
 	void initGL();	//Initialize OpenGL
 	void eventHandler(SDL_Event &event);	//SDL event handler
 	void clearScreen();	//Clears the screen

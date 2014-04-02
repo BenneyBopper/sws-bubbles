@@ -1,5 +1,5 @@
-# OS=mac
-OS=windows
+OS=mac
+#OS=windows
 
 ifeq ($(OS), windows)
 	SYSCFLAGS=-IC:\MinGW\include

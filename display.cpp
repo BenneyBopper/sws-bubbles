@@ -1,13 +1,15 @@
 #include "display.hpp"
+const double PI = 3.141592653589793238462;
 
 void Display::getWindowSize(int *width, int *height) {
 	SDL_GetWindowSize(window, width, height);
 }
 
 void Display::setWindowSize(int width, int height) {
-	glViewport( (width-height)/2, 0, 
-				(GLsizei) width>height?height:width, 
-				(GLsizei) height>width?width:height );
+	// glViewport( 0, 0, 
+	// 			(GLsizei) width>height?height:width, 
+	// 			(GLsizei) height>width?width:height );
+	glViewport( 0, 0, (GLsizei) width, (GLsizei) height );
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	// Orthographic projection matrix (2D)
@@ -87,37 +89,37 @@ void Display::render() {
 }
 
 /////////////////////////////////////////////////////////////
-// void Display::drawCircle( float cx, float cy, float cz, float r, int num_segments) {
-// 	if(!cz) cz = 0;
-// 	float theta = 2 * M_PI / float(num_segments); 
-// 	float tangetial_factor = tanf(theta);//calculate the tangential factor 
-// 	float radial_factor = cosf(theta);//calculate the radial factor 
+void Display::drawCircle( float cx, float cy, float cz, float r, int num_segments) {
+	if(!cz) cz = 0;
+	float theta = 2 * PI / float(num_segments); 
+	float tangetial_factor = tanf(theta);//calculate the tangential factor 
+	float radial_factor = cosf(theta);//calculate the radial factor 
 	
-// 	float x = r;//we start at angle = 0 
-// 	float y = 0; 
+	float x = r;//we start at angle = 0 
+	float y = 0; 
 	
-// 	// glBegin(GL_LINE_LOOP); 
-// 	glBegin(GL_TRIANGLE_FAN); 
-// 	for(int ii = 0; ii < num_segments; ii++) { 
-// 		glVertex3f(x + cx, y + cy, cz);//output vertex 
+	// glBegin(GL_LINE_LOOP); 
+	glBegin(GL_TRIANGLE_FAN); 
+	for(int ii = 0; ii < num_segments; ii++) { 
+		glVertex3f(x + cx, y + cy, cz);//output vertex 
 		
-// 		//calculate the tangential vector 
-// 		//remember, the radial vector is (x, y) 
-// 		//to get the tangential vector we flip those coordinates and negate one of them 
+		//calculate the tangential vector 
+		//remember, the radial vector is (x, y) 
+		//to get the tangential vector we flip those coordinates and negate one of them 
 
-// 		float tx = -y; 
-// 		float ty = x; 
+		float tx = -y; 
+		float ty = x; 
 		
-// 		//add the tangential vector 
-// 		x += tx * tangetial_factor; 
-// 		y += ty * tangetial_factor; 
+		//add the tangential vector 
+		x += tx * tangetial_factor; 
+		y += ty * tangetial_factor; 
 		
-// 		//correct using the radial factor 
-// 		x *= radial_factor;
-// 		y *= radial_factor;
-// 	} 
-// 	glEnd(); 
-// }
+		//correct using the radial factor 
+		x *= radial_factor;
+		y *= radial_factor;
+	} 
+	glEnd(); 
+}
 
 void Display::drawQuad(float x, float y, float w, float h) const {
 	glPushMatrix();

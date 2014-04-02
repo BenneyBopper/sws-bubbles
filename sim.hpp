@@ -2,6 +2,8 @@
 #define __SIM_HPP__
 
 #include <SDL2/SDL.h>
+#include <glm/glm.hpp>
+#include <glm/vec2.hpp>
 #include <limits>
 #include <ctime>
 #include <cstdlib>
@@ -10,13 +12,16 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "display.hpp"
+#include "bubble.hpp"
 
 #define MODEL "1D Shallow Water Simulation"
-#define DIM_X 100
+#define DIM_X 2
 #define DIM_Y 3
 
-#define WINDOW_X 512
-#define WINDOW_Y 512
+#define WINDOW_X (DIM_X*200)
+#define WINDOW_Y (DIM_Y*200)
+
+#define vec glm::dvec2
 
 class Sim {
 private:
@@ -26,16 +31,29 @@ private:
 	const int SIZE = 100;
 	const int RENDERSTEPS = 0;
 	const int END_TIME = 25;
-
+	
 	// constants
 	const float gravity = -10.0;  // normal acceleration a_n
-	const float dt = 10.0 / (float)SIZE;       // time step size
-	const float domainSize = 50.0; // size of the domain
+	const float dt = 0.001; //10.0 / (float)SIZE;       // time step size 0.001
+	const float domainSize = 1.0; // size of the domain
 	const float dx = domainSize / (float)SIZE;  
 	const float dxInv = 1.0/dx;   // save some division later on
 
 	// main arrays velocity, height, and temporary storage
 	std::vector<float> vel_x, vel_y, temp, h;
+
+	// bubble storage
+	std::vector<Bubble> bubbles;
+
+	// bubble collision types
+	enum collisionType {
+		NONE,
+		WATER,
+		WALL,
+		BUBBLE
+	};
+	bool checkCollision;
+	vec bounds; 
 
 	//Handle key inputs
 	void eventHandler();
